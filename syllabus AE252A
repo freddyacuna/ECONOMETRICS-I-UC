@@ -1,0 +1,140 @@
+CURSO: TÓPICOS EN ECONOMETRÍA
+SIGLA: EAE252A
+CRÉDITOS: 10
+MÓDULOS: 02
+REQUISITOS: EAE210B y EAE220B y EAE250A
+CARÁCTER: OPTATIVO DE PROFUNDIZACIÓN
+DISCIPLINA: ECONOMÍA
+
+
+I. DESCRIPCIÓN
+
+El curso está orientado a alumnos de pregrado que hayan cursado Macroeconomía I, Microeconomía I y Econometría, y tienen el objetivo de proveer herramientas 
+de econometría y métodos numéricos que permitan aplicar los conocimientos teóricos adquiridos a lo largo de la rama de economia de la carrera.
+
+
+II. OBJETIVOS
+
+1. Programar códigos para rutinas de uso cotidiano no disponiblesen paquetes estásticos comerciale (v.g. E-views, Stata).
+
+2. Aplicar conceptos elementales de econometría a través de la programación de apliaciones.
+
+3. Ientificar ventajes y desventajas de metodologías alternativas para responder una pregunta económica.
+
+4. Resolver problemas de muestra pequeña por meio de técnicas de remuestreo.
+
+5. Abordar problemas de optiización no lineales en general.
+
+
+III. CONTENIDOS
+
+1. Programación en MATLAB.
+
+
+2. Revisión de tópicos de econometría elemental.
+
+2.1 Revisión de MCO: estimación e inferencia.
+
+2.2 Violación de supuestos: heterocedasticidad/autocorrelación.
+
+2.3 Problema con los datos: multicolinealidad /muestra reducida.
+
+2.4 Ecuaciones simultánea, SUR.
+
+
+3. Métodos de remuestreo.
+
+3.1 Bootstrap.
+
+3.2 Jacknife.
+
+3.3 Cross validation.
+
+3.4 Subsamplñing.
+
+3.5 Aplicación: Corrección por sesgo de estadísticos clásicos.
+
+
+4. Estimación no-paramétrica de densidades.
+
+4.1 Motivación.
+
+4.2 Funciones kernel.
+
+4.3 Elección del ancho de banda h: trade-off sesgo/varianza.
+
+4.4 Aplicación: Estimación de la densidad de ingresos familiares.
+
+
+5. Métodos numéricos para solucionar ecuacioness no-lineales.
+
+5.1 Motivación.
+
+5.2 Forma funcional y aproximaciones.
+
+5.3 Optimización unidimensional y multidmensional.
+
+5.4 Aplicación: teoría del ingreso permanente.
+
+
+6. Máxima verosimilitud.
+
+6.1 Introducción.
+
+6.2 Estimación.
+
+6.3 Inferencia.
+
+6.4 Cuasi-máxima verosimilitud/MCO.
+
+6.5 Aplicación: Probabilidad de entrar al mercado laboral.
+
+
+7. Método generalizado de momentos.
+
+7.1 Introducción.
+
+7.2 Estimación.
+
+7.3 Inferencia.
+
+7.4 Aplicación: estimación de la aversión al riesgo en un modelo microfundado.
+
+
+IV. METODOLOGÍA
+
+- Sesiones expositivas.
+- Sesiones participativas.
+- Uso de sala PC.
+
+
+v. EVALUACIÓN
+
+- Controles: 6
+- Tareas: 3
+- Trabajo final de curso.
+- Discusión y participación.
+
+
+VI. BIBLIOGRAFÍA
+
+Mínima:
+
+Alastair, H. Generalized method of moments. Advanced texts in econometrics. Oxford University Press, 2005.
+
+Davidson, A. y D. Hinkley. Bootstrap Methods and their Application. Cambridge University Press, 2007.
+
+Efron y Tibshirani. An introduction to the Bootstrap. Chapman & Hall/CRC., 1993.
+
+Hansen, Bruce. Econometrics. University of Wisconsin, 2000. Manuscript.
+
+Heer, B y A. Maussner. Dynamic General Equilibrium Modelling. Springer, Berlin, Germant, 2005.
+
+Judo, k. Nunerical Methods in Economics. The MIT Press, 1998.
+
+Matyas, L. Generalized Nethod of Moments Estimation. Cambridge University Press, 2003.
+
+Silverman. Densisty Estimados for Statistcs and Analysis. Chapment & Hall, 1986.
+
+
+
