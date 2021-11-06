@@ -22,21 +22,13 @@ ln (𝑌/𝐿) = 𝛽0 + 𝛽1 ln(𝑠) + 𝛽2 ln(𝑛 + 𝑔 + 𝛿) + 𝑢
 
 donde 𝑌/𝐿 representa el producto por trabajador, 𝑠 = 𝐼/𝑌 la tasa de inversión en capital físico, 𝑛 la tasa de crecimiento de la población en edad de trabajar, 𝑔 la tasa de cambio tecnológico y 𝛿 la tasa de depreciación.
 
-I. Estime la ecuación por MCO para cada submuestra de países. Puede suponer que 𝑔 +
-𝛿= 0.05 (como hacen MRW) y utilizar como variable dependiente el logaritmo del PIB 
-real por trabajador en 1985. 
-Ayuda: no olvide dividir las variables i_y y popgrowth entre 100 antes de estimar. 
-Compruebe que es capaz de replicar las estimaciones de la tabla 1 en MRW (1992).
-II. Interprete los coeficientes estimados para las tres submuestras. ¿Son los coeficientes 
-individualmente significativos al 5%? ¿Explican la inversión y el crecimiento de la 
-población una parte importante de la variación en el producto por trabajador? 
-III. Contraste la hipótesis de que los coeficientes son iguales en magnitud pero de distinto 
-signo (como predice el modelo) para cada una de las submuestras (𝐻0
-: 𝛽1 + 𝛽2 = 0). 
-¿Puede rechazar la hipótesis nula al 5%?
+1. Estime la ecuación por MCO para cada submuestra de países. Puede suponer que 𝑔 + 𝛿= 0.05 (como hacen MRW) y utilizar como variable dependiente el logaritmo del PIB  real por trabajador en 1985. Hint: no olvide dividir las variables i_y y popgrowth entre 100 antes de estimar. Compruebe que es capaz de replicar las estimaciones de la tabla 1 en MRW (1992).
 
-1. 
-2. 
+2. Interprete los coeficientes estimados para las tres submuestras. ¿Son los coeficientes individualmente significativos al 5%? ¿Explican la inversión y el crecimiento de la población una parte importante de la variación en el producto por trabajador? 
+
+3. Contraste la hipótesis de que los coeficientes son iguales en magnitud pero de distinto signo (como predice el modelo) para cada una de las submuestras (𝐻0: 𝛽1 + 𝛽2 = 0). ¿Puede rechazar la hipótesis nula al 5%?
+
+
 
 
 
