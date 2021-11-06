@@ -1,0 +1,45 @@
+---
+title: "Replication: A Contribution to the Empirics of Economic Growth by Mankiw, Romer, and Weil (1992)"
+output: html_document
+---
+
+## R Libraries and dataset
+
+```{r message=FALSE}
+library(tibble)     # nice dataframes
+library(stargazer)  # regression tables
+library(ggplot2)    # nice graphs
+library(dplyr)      # data manipulation
+library(car)        # test linear hypotheses
+library(skimr)      # descriptive statistics
+library(haven)      # reading stata data
+
+options(warn = -1)
+options(scipen = 10000)
+options(repr.plot.width = 6, repr.plot.height = 4)
+
+mrw_data <- read_dta("https://github.com/freddyacuna/ECONOMETRICS-I-UC/blob/master/Undergraduate/2021%20Spring/HW2/mrw.dta")
+
+```
+
+## A Simple Example of stata
+
+Stata code should be run using the following code chunck: 
+` ```{stata, engine.path=statapath, comment=""} CODE ``` `
+
+Here is a basic example: 
+
+```{stata, engine.path=statapath, comment=""}
+sysuse auto
+summarize
+```
+
+## Going back to R
+
+```{r cars}
+summary(cars)
+```
+
+## Additional notes
+- Stata code does not work with R notebooks yet.
+- The source of this document can be found [here](https://gist.github.com/cmg777/ba33bda5dfd1f4aec47a480bbaa84b3e)
