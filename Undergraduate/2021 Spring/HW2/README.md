@@ -12,3 +12,10 @@ En esta tarea replicaremos parte de los resultados del artículo “A contributi
 - popgrowth : Crecimiento promedio anual de la población en edad de trabajar entre 1960 y 1985
 - i_y : Inversión real como porcentaje del PIB (promedio anual del periodo 1960-1985)
 - school: Porcentaje de la población en edad de trabajar con educación secundaria (promedio anual del periodo 1960-1985)
+
+# Preguntas
+
+## Primera parte
+Como primer paso MRW estiman el modelo simple de crecimiento económico de Solow. La ecuación de referencia para la primera parte del análisis es:
+$$ ln \left( \frac{}{} \right)$$
+l
