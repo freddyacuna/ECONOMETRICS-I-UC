@@ -22,24 +22,311 @@ mrw_data <- read_dta("https://github.com/freddyacuna/ECONOMETRICS-I-UC/blob/mast
 
 ```
 
-## A Simple Example of stata
+## Intro 
 
-Stata code should be run using the following code chunck: 
-` ```{stata, engine.path=statapath, comment=""} CODE ``` `
+```{r}
+skim(mrw_data)
 
-Here is a basic example: 
+```
+Rename variable names, so they are more meaningful.
 
-```{stata, engine.path=statapath, comment=""}
-sysuse auto
-summarize
+```{r}
+mrw_data <- mrw_data %>% 
+              rename(non_oil = n, 
+                     oecd = o,
+                     intermediate = i,
+                     gdp_60 = rgdpw60,
+                     gdp_85 = rgdpw85,
+                     gdp_growth_60_85 = gdpgrowth,
+                     pop_growth_60_85 = popgrowth,
+                     inv_gdp = i_y,
+                     school = school)
 ```
 
-## Going back to R
 
-```{r cars}
-summary(cars)
+Create the key variables of the Solow model.
+
+```{r}
+delta_gamma <- 0.05
+
+mrw_data <- mrw_data %>% 
+                  mutate(ln_gdp_85 = log(gdp_85),
+                         ln_gdp_60 = log(gdp_60),
+                         ln_gdp_growth = ln_gdp_85 - ln_gdp_60,
+                         ln_inv_gdp = log(inv_gdp/100),
+                         non_oil = factor(non_oil),
+                         intermediate = factor(intermediate),
+                         oecd = factor(oecd),
+                         ln_ndg = log(pop_growth_60_85/100 + delta_gamma),
+                         ln_school = log(school/100)) %>% 
+                  select(country, region, ln_gdp_85, ln_gdp_60, ln_inv_gdp, 
+                         non_oil, intermediate, oecd,
+                         ln_ndg, ln_school, gdp_growth_60_85, ln_gdp_growth)
 ```
 
-## Additional notes
-- Stata code does not work with R notebooks yet.
-- The source of this document can be found [here](https://gist.github.com/cmg777/ba33bda5dfd1f4aec47a480bbaa84b3e)
+
+
+
+```{r}
+skim(mrw_data)
+```
+
+
+
+
+## Data samples
+
+```{r}
+non_oil      <- mrw_data %>% 
+                    filter(non_oil == 1)
+intermediate <- mrw_data %>% 
+                    filter(intermediate == 1)
+oecd         <- mrw_data %>% 
+                    filter(oecd == 1)
+```
+Additional samples for further exploration
+
+```{r}
+africa       <- mrw_data %>% 
+                    filter(region == "Africa")
+asia         <- mrw_data %>% 
+                    filter(region == "Asia")
+europe       <- mrw_data %>% 
+                    filter(region == "Europe")
+latinAmerica <- mrw_data %>% 
+                    filter(region == "LatinAmerica")
+northAmerica <- mrw_data %>% 
+                    filter(region == "NorthAmerica")
+oceania      <- mrw_data %>% 
+                    filter(region == "Oceania")
+```
+
+## Solow model: Unrestricted Regression
+
+```{r}
+solow_oecd <- lm(ln_gdp_85 ~ ln_inv_gdp + ln_ndg, data = oecd)
+solow_int  <- lm(ln_gdp_85 ~ ln_inv_gdp + ln_ndg, data = intermediate)
+solow_noil <- lm(ln_gdp_85 ~ ln_inv_gdp + ln_ndg, data = non_oil)
+```
+
+
+```{r}
+stargazer(solow_noil, solow_int, solow_oecd, digits=2, type = "text",
+          column.labels = c("Non-Oil", 
+                            "Intermediate", 
+                            "OECD"),
+          covariate.labels = c("log(I / GDP)", 
+                               "log(n+delta+g)", 
+                               "Constant"), 
+          dep.var.labels = "Log(GDP) 1985",
+          omit.stat = c("f", 
+                        "rsq", 
+                        "ser"),
+          title = "Table 1 - Unrestricted Models",
+          style = "qje")
+```
+## Solow model: Restricted  Regression
+
+```{r}
+solow_noil_r <- lm(ln_gdp_85 ~ I(ln_inv_gdp - ln_ndg), data = non_oil)
+solow_int_r  <- lm(ln_gdp_85 ~ I(ln_inv_gdp - ln_ndg), data = intermediate)
+solow_oecd_r <- lm(ln_gdp_85 ~ I(ln_inv_gdp - ln_ndg), data = oecd)
+```
+
+
+
+```{r}
+stargazer(solow_noil_r, solow_int_r, solow_oecd_r, digits=2, type = "text",
+          column.labels = c("Non-Oil", 
+                            "Intermediate", 
+                            "OECD"),
+          covariate.labels = c("log(I / GDP)- log(n+delta+g)", 
+                               "Constant"), 
+          dep.var.labels = "Log(GDP) 1985",
+          omit.stat = c("f", 
+                        "rsq", 
+                        "ser"),
+          title = "Table 1 - Restricted Models",
+          style = "qje")
+```
+## Solow model: Test of Restriction
+
+$H0:$ The coefficients on $\ln (s)$  and $\ln⁡(n+\gamma+\delta)$ are equal in magnitude and opposite in sign.
+
+```{r}
+linearHypothesis(solow_noil, "ln_inv_gdp = - ln_ndg")
+```
+
+
+```{r}
+linearHypothesis(solow_int,  "ln_inv_gdp = - ln_ndg")
+```
+
+
+
+```{r}
+linearHypothesis(solow_oecd, "ln_inv_gdp = - ln_ndg")
+```
+
+## Solow model: Implied alpha
+
+
+```{r}
+C <- coef(solow_noil_r)[2]
+alpha_solow_noil_r <- C/(1+C)
+alpha_solow_noil_r <- round(alpha_solow_noil_r, 2)
+print(paste("Implied alpha (Non oil):", alpha_solow_noil_r))
+```
+
+
+```{r}
+C <- coef(solow_int_r)[2]
+alpha_solow_int_r <- C/(1+C)
+alpha_solow_int_r <- round(alpha_solow_int_r, 2)
+print(paste("Implied alpha (Intermediate):", alpha_solow_int_r))
+```
+
+
+
+```{r}
+C <- coef(solow_oecd_r)[2]
+alpha_solow_oecd_r <- C/(1+C)
+alpha_solow_oecd_r <- round(alpha_solow_oecd_r, 2)
+print(paste("Implied alpha (OECD):", alpha_solow_oecd_r))
+```
+
+
+## Augmented Solow model: Unrestricted regression
+
+```{r}
+augsolow_noil <- lm(ln_gdp_85 ~ ln_inv_gdp + ln_ndg + ln_school, data = non_oil)
+augsolow_int  <- lm(ln_gdp_85 ~ ln_inv_gdp + ln_ndg + ln_school, data = intermediate)
+augsolow_oecd <- lm(ln_gdp_85 ~ ln_inv_gdp + ln_ndg + ln_school, data = oecd)
+```
+
+
+```{r}
+stargazer(augsolow_noil, augsolow_int, augsolow_oecd, digits=2, type = "text",
+          column.labels = c("Non-Oil", 
+                            "Intermediate", 
+                            "OECD"),
+          covariate.labels = c("log(I / GDP)", 
+                               "log(n+delta+g)",
+                               "log(school)",
+                               "Constant"), 
+          dep.var.labels = "Log(GDP) 1985",
+          omit.stat = c("f", 
+                        "rsq", 
+                        "ser"),
+          title = "Table 2 - Unrestricted Models",
+          style = "qje")
+```
+
+
+
+
+
+## Augmented Solow model: Restricted regression
+
+```{r}
+augsolow_noil_r <- lm(ln_gdp_85 ~ I(ln_inv_gdp - ln_ndg) + I(ln_school - ln_ndg), data = non_oil)
+augsolow_int_r  <- lm(ln_gdp_85 ~ I(ln_inv_gdp - ln_ndg) + I(ln_school - ln_ndg), data = intermediate)
+augsolow_oecd_r <- lm(ln_gdp_85 ~ I(ln_inv_gdp - ln_ndg) + I(ln_school - ln_ndg), data = oecd)
+```
+
+```{r}
+stargazer(augsolow_noil_r, augsolow_int_r, augsolow_oecd_r, digits=2, type = "text",
+          column.labels = c("Non-Oil", 
+                            "Intermediate", 
+                            "OECD"),
+          covariate.labels = c("log(I / GDP)- log(n+delta+g)", 
+                               "log(school)- log(n+delta+g)",
+                               "Constant"), 
+          dep.var.labels = "Log(GDP) 1985",
+          omit.stat = c("f", 
+                        "rsq", 
+                        "ser"),
+          title = "Table 2 - Restricted Models",
+          style = "qje")
+```
+
+## Augmented Solow model: Test of restriction
+
+```{r}
+linearHypothesis(augsolow_oecd, "ln_inv_gdp + ln_ndg + ln_school = 0")
+```
+
+
+
+```{r}
+linearHypothesis(augsolow_noil, "ln_inv_gdp + ln_ndg + ln_school = 0")
+```
+
+```{r}
+linearHypothesis(augsolow_int, "ln_inv_gdp + ln_ndg + ln_school = 0")
+```
+
+
+
+
+
+
+## Augmented Solow model: Implied alpha and beta
+
+
+
+```{r}
+c2 <- round(coef(augsolow_noil_r)[2], 2)
+c2
+c3 <- round(coef(augsolow_noil_r)[3], 2)
+c3
+```
+
+```{r}
+x = c2 / (c2+c3+1)
+x = round(x, 2)
+print(paste("Implied alpha (Non oil):", x))
+y = c3 / (c2+c3+1)
+y = round(y, 2)
+print(paste("Implied beta (Non oil):", y))
+```
+
+
+```{r}
+c2 <- round(coef(augsolow_int_r)[2], 2)
+c2
+c3 <- round(coef(augsolow_int_r)[3], 2)
+c3
+```
+
+
+
+```{r}
+x = c2 / (c2+c3+1)
+x = round(x, 2)
+print(paste("Implied alpha (Intermediate):", x))
+y = c3 / (c2+c3+1)
+y = round(y, 2)
+print(paste("Implied beta (Intermediate):", y))
+```
+
+
+
+```{r}
+c2 <- round(coef(augsolow_oecd_r)[2], 2)
+c2
+c3 <- round(coef(augsolow_oecd_r)[3], 2)
+c3
+```
+
+
+```{r}
+x = c2 / (c2+c3+1)
+x = round(x, 2)
+print(paste("Implied alpha (OECD):", x))
+y = c3 / (c2+c3+1)
+y = round(y, 2)
+print(paste("Implied beta (OECD):", y))
+```
+
+## Convergence
