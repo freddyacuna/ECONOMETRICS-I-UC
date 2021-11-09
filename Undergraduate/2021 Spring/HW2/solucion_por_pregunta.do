@@ -324,12 +324,39 @@ imtest, white
 quietly reg ln_gdp_growth ln_gdp_60 ln_inv_gdp ln_ndg ln_school c.ln_inv_gdp#c.ln_school if o==1, robust
 imtest, white
 
+/*
+
+La primera prueba de heterocedasticidad dada por imest es la prueba de White y la segunda dada por hettest es la prueba de Breusch-Pagan. Ambos prueban la hipótesis nula de que la varianza de los residuos es homogénea. Por tanto, si el valor p es muy pequeño, tendríamos que rechazar la hipótesis y aceptar la hipótesis alternativa de que la varianza no es homogénea. Entonces, en este caso, la evidencia está en contra de la hipótesis nula de que la varianza es homogénea. Estas pruebas son muy sensibles a los supuestos del modelo, como el supuesto de normalidad. Por lo tanto, es una práctica común combinar las pruebas con gráficos de diagnóstico para emitir un juicio sobre la gravedad de la heterocedasticidad y decidir si se necesita alguna corrección para la heterocedasticidad. En nuestro caso, el gráfico anterior no muestra una evidencia demasiado fuerte. Por lo tanto, no vamos a entrar en detalles sobre cómo corregir la heterocedasticidad a pesar de que existen métodos disponibles.
+*/
+
 	*******************************************
 			******* P R E G U N T A 	v
 	*******************************************
-	
+reg ln_gdp_growth ln_gdp_60 ln_inv_gdp ln_ndg ln_school  c.ln_inv_gdp#c.ln_school 
+	avplot c.ln_inv_gdp#c.ln_school,mlabel(country)
 
+/*
+avplot grafica un gráfico de variables agregadas (también conocido como gráfico de apalancamiento de regresión parcial, regresión parcial
+parcela o parcela residual parcial ajustada) después de la regresión. indepvar puede ser una variable independiente (también conocida como
+predictor, portador o covariable) que se encuentra actualmente en el modelo o no.
+*/
+
+/*
+
+
+Una de las características maravillosas de las regresiones de un regresor (regresiones de y sobre una x) es que puede graficar los datos y la línea de regresión. No hay forma más fácil de entender la regresión que para examinar tal gráfico. Desafortunadamente, no podemos hacer esto cuando tenemos más de un regresor. Con dos regresores, todavía es teóricamente posible: el gráfico debe dibujarse en tres dimensiones, pero con tres o más regresores no es posible graficar.
+El gráfico de variables agregadas es un intento de proyectar datos multidimensionales de nuevo a los datos bidimensionales.
+mundo para cada uno de los regresores originales. Esto es, por supuesto, imposible sin hacer algunos
+concesiones. Llame a las coordenadas en una gráfica de variable agregada y y x. La gráfica de variable agregada tiene la
+siguientes propiedades:
+• Existe una correspondencia biunívoca entre (xi , yi) y la i-ésima observación utilizada en el original regresión
+• Una regresión de y sobre x tiene el mismo coeficiente y error estándar (hasta un grado de libertad ajuste) como el coeficiente y el error estándar estimados para el regresor en la regresión original.
+• El "valor atípico" de cada observación en la determinación de la pendiente se conserva en cierto sentido. Es igualmente importante tener en cuenta las propiedades que no se enumeran. Las coordenadas y y x de la
+La gráfica de variables agregadas no se puede usar para identificar la forma funcional o, al menos, no bien (ver Mallows [1986]). En la construcción de la gráfica de variables agregadas, la relación entre y y x se ve obligada a
+ser lineal
+*/
+
+	
 	*******************************************
 			******* P R E G U N T A 	SINTESIS
 	*******************************************
-
