@@ -64,7 +64,7 @@ Grafique también la relación entre la tasa de crecimiento y el log del product
 
 4. Implemente el test de heteroscedasticidad de White y discuta los resultados para cada submuestra de países. ¿Se mantienen los resultados encontrados en III usando errores estándar robustos a heteroscedasticidad? Ayuda: use el comando imtest,white
 
-5. Grafique los residuos de la regresión anterior (con errores estándar robustos) como función de la interacción entre la tasa de inversión en capital físico y la tasa de acumulación en capital humano. Interprete las figuras para cada submuestra. Ayuda: use el comando avplo
+5. Grafique los residuos de la regresión anterior (con errores estándar robustos) como función de la interacción entre la tasa de inversión en capital físico y la tasa de acumulación en capital humano. Interprete las figuras para cada submuestra. Ayuda: use el comando avplot
 
 
 
