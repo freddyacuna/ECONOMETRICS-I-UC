@@ -329,4 +329,313 @@ y = round(y, 2)
 print(paste("Implied beta (OECD):", y))
 ```
 
-## Convergence
+## Unconditional convergence
+```{r}
+ucc_noil <- lm(ln_gdp_growth ~ ln_gdp_60, data = non_oil)
+ucc_int  <- lm(ln_gdp_growth ~ ln_gdp_60, data = intermediate)
+ucc_oecd <- lm(ln_gdp_growth ~ ln_gdp_60, data = oecd)
+```
+
+
+
+```{r}
+stargazer(ucc_noil, ucc_int, ucc_oecd, digits=2, type = "text",
+          column.labels = c("Non-Oil", 
+                            "Intermediate", 
+                            "OECD"),
+          covariate.labels = c("log(GDP '60)",
+                              "Constant"),
+          dep.var.labels = "Log(GDP '85) - Log(GDP '60)",
+          omit.stat = c("f", 
+                        "rsq", 
+                        "ser"),
+          title = "Table 3 - Unconditional Convergence",
+          style = "qje")
+```
+
+## Implied speed of convergence
+
+```{r}
+# Implied speed of convergence and halflife
+speed = -log(1+coef(ucc_noil)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 5)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (Non-oil):", speed))
+print(paste("Implied halflife of unconditional (Non-oil):", halfLife))
+```
+
+
+
+```{r}
+# Implied speed of convergence and halflife
+speed = - log(1+coef(ucc_int)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 5)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (Intermediate):", speed))
+print(paste("Implied halflife of unconditional (Intermediate):", halfLife))
+```
+
+
+
+```{r}
+# Implied speed of convergence and halflife
+speed = - log(1+coef(ucc_oecd)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (OECD):", speed))
+print(paste("Implied halflife of unconditional (OECD):", halfLife))
+```
+
+## Conditional convergence
+
+```{r}
+cc_noil <- lm(ln_gdp_growth ~ ln_gdp_60 + ln_inv_gdp + ln_ndg, data = non_oil)
+cc_int  <- lm(ln_gdp_growth ~ ln_gdp_60 + ln_inv_gdp + ln_ndg, data = intermediate)
+cc_oecd <- lm(ln_gdp_growth ~ ln_gdp_60 + ln_inv_gdp + ln_ndg, data = oecd)
+```
+
+
+```{r}
+stargazer(cc_noil, cc_int, cc_oecd, digits=2, type = "text",
+          column.labels = c("Non-Oil", 
+                            "Intermediate", 
+                            "OECD"),
+          covariate.labels = c("log(GDP '60)",
+                               "log(I / GDP)", 
+                               "log(n+delta+g)",
+                               "Constant"),
+          dep.var.labels = "Log(GDP '85) - Log(GDP '60)",
+          omit.stat = c("f", 
+                        "rsq", 
+                        "ser"),
+          title = "Table 4 - Conditional Convergence",
+          style = "qje")
+```
+
+## Implied speed of convergence
+
+```{r}
+# Implied speed of convergence and halflife
+speed = -log(1+coef(cc_noil)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 5)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (Non-oil):", speed))
+print(paste("Implied halflife of unconditional (Non-oil):", halfLife))
+```
+
+```{r}
+# Implied speed of convergence and halflife
+speed = - log(1+coef(cc_int)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (Intermediate):", speed))
+print(paste("Implied halflife of unconditional (Intermediate):", halfLife))
+```
+
+```{r}
+# Implied speed of convergence and halflife
+speed = -log(1+coef(cc_oecd)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (OECD):", speed))
+print(paste("Implied halflife of unconditional (OECD):", halfLife))
+```
+
+## Augmented conditional convergence
+```{r}
+augcc_noil <- lm(ln_gdp_growth ~ ln_gdp_60 + ln_inv_gdp + ln_ndg + ln_school, data = non_oil)
+augcc_int  <- lm(ln_gdp_growth ~ ln_gdp_60 + ln_inv_gdp + ln_ndg + ln_school, data = intermediate)
+augcc_oecd <- lm(ln_gdp_growth ~ ln_gdp_60 + ln_inv_gdp + ln_ndg + ln_school, data = oecd)
+```
+
+```{r}
+stargazer(augcc_noil, augcc_int, augcc_oecd, digits=2, type = "text",
+          column.labels = c("Non-Oil", 
+                            "Intermediate", 
+                            "OECD"),
+          covariate.labels = c("log(GDP '60)",
+                               "log(I / GDP)", 
+                               "log(n+delta+g)",
+                               "log(school)",
+                               "Constant"),
+          dep.var.labels = "Log(GDP '85) - Log(GDP '60)",
+          omit.stat = c("f", 
+                        "rsq", 
+                        "ser"),
+          title = "Table 5 - Augmented Conditional Convergence",
+          style = "qje")
+```
+
+## Implied speed of convergence
+```{r}
+# Implied speed of convergence and halflife
+speed = -log(1+coef(augcc_noil)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (Non-oil):", speed))
+print(paste("Implied halflife of unconditional (Non-oil):", halfLife))
+```
+
+```{r}
+# Implied speed of convergence and halflife
+speed = - log(1+coef(augcc_int)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (Intermediate):", speed))
+print(paste("Implied halflife of unconditional (Intermediate):", halfLife))
+```
+
+```{r}
+# Implied speed of convergence and halflife
+speed = -log(1+coef(augcc_oecd)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (OECD):", speed))
+print(paste("Implied halflife of unconditional (OECD):", halfLife))
+```
+
+## Restricted augmented conditional convergence
+
+```{r}
+augcc_noil_r <- lm(ln_gdp_growth ~ ln_gdp_60 + I(ln_inv_gdp - ln_ndg) + I(ln_school - ln_ndg), data = non_oil)
+augcc_int_r  <- lm(ln_gdp_growth ~ ln_gdp_60 + I(ln_inv_gdp - ln_ndg) + I(ln_school - ln_ndg), data = intermediate)
+augcc_oecd_r <- lm(ln_gdp_growth ~ ln_gdp_60 + I(ln_inv_gdp - ln_ndg) + I(ln_school - ln_ndg), data = oecd)
+```
+
+```{r}
+stargazer(augcc_noil_r, augcc_int_r, augcc_oecd_r, digits=3, type = "text",
+          column.labels = c("Non-Oil", 
+                            "Intermediate", 
+                            "OECD"),
+          covariate.labels = c("log(GDP '60)",
+                               "log(I / GDP) - log(n+delta+g)", 
+                               "log(school) - log(n+delta+g)",
+                               "Constant"),
+          dep.var.labels = "Log(GDP '85) - Log(GDP '60)",
+          omit.stat = c("f", 
+                        "rsq", 
+                        "ser"),
+          title = "Table 6 - Restricted Augmented Conditional Convergence",
+          style = "qje")
+```
+
+## Test of restriction
+
+```{r}
+linearHypothesis(augcc_noil, "ln_inv_gdp + ln_ndg + ln_school = 0")
+```
+
+```{r}
+linearHypothesis(augcc_int, "ln_inv_gdp + ln_ndg + ln_school = 0")
+```
+
+```{r}
+linearHypothesis(augcc_oecd, "ln_inv_gdp + ln_ndg + ln_school = 0")
+```
+
+## Implied speed of convergence
+```{r}
+# Implied speed of convergence and halflife
+speed = -log(1+coef(augcc_noil_r)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (Non-oil):", speed))
+print(paste("Implied halflife of unconditional (Non-oil):", halfLife))
+```
+
+```{r}
+# Implied speed of convergence and halflife
+speed = -log(1+coef(augcc_int_r)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (Intermediate):", speed))
+print(paste("Implied halflife of unconditional (Intermediate):", halfLife))
+```
+
+
+```{r}
+# Implied speed of convergence and halflife
+speed = -log(1+coef(augcc_oecd_r)[2])/(1985-1960)
+halfLife = log(2)/speed
+
+speed = round(speed, 4)
+halfLife = round(halfLife)
+
+print(paste("Implied speed of unconditional (OECD):", speed))
+print(paste("Implied halflife of unconditional (OECD):", halfLife))
+```
+## Figures: Unconditional vs conditional convergence
+```{r}
+ggplot(intermediate, aes(x = ln_gdp_60, y = ln_gdp_growth)) +
+    geom_point(shape = 1) +
+    geom_smooth(method=lm, se=FALSE, color = "red") +
+    theme_bw() +
+    ggtitle("A: Unconditional") +
+    ylab("Log Growth rate: 1960 - 85") +
+    xlab("Log output per working age adult: 1960")
+```
+```{r}
+y2 <- lm(ln_gdp_growth ~  ln_inv_gdp + ln_ndg, data = intermediate)$residuals
+x2 <- lm(ln_gdp_60 ~  ln_inv_gdp + ln_ndg, data = intermediate)$residuals
+
+panel_b <- tibble(y2, x2)
+```
+```{r}
+ggplot(panel_b, aes(x = x2, y = y2)) +
+    geom_point(shape = 1) +
+    geom_smooth(method=lm, se=FALSE, color = "red") +
+    theme_bw() +
+    ggtitle("B: Conditional on Saving and Population Growth") +
+    ylab("Log Growth rate: 1960 - 85") +
+    xlab("Log output per working age adult: 1960")
+```
+
+```{r}
+
+y3 <- lm(ln_gdp_growth ~  ln_inv_gdp + ln_ndg + ln_school, data = intermediate)$residuals
+x3 <- lm(ln_gdp_60 ~  ln_inv_gdp + ln_ndg + ln_school, data = intermediate)$residuals
+
+panel_c <- tibble(y3, x3)
+```
+```{r}
+ggplot(panel_c, aes(x = x3, y = y3)) +
+    geom_point(shape = 1) +
+    geom_smooth(method=lm, se=FALSE, color = "red") +
+    theme_bw() +
+    ggtitle("C: Conditional on Saving and Population Growth and Human Capital") +
+    ylab("Log Growth rate: 1960 - 85") +
+    xlab("Log output per working age adult: 1960")
+```
